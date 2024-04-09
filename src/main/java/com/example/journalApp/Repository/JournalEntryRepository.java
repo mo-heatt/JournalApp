@@ -9,5 +9,4 @@ import org.springframework.stereotype.Component;
 
 @Component
 public interface JournalEntryRepository extends MongoRepository<JournalEntry, ObjectId> {
-
 }
