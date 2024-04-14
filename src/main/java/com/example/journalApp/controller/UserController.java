@@ -8,16 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
+
     @Autowired
     private UserService userService;
 
@@ -25,20 +25,8 @@ public class UserController {
     private UserRepository userRepository;
 
     @GetMapping
-    public List<User> getAll(){
+    public List<User> getAllUsers(){
         return userService.getAll();
-    }
-
-    @GetMapping("id/{myId}")
-    public Optional<User> getUserById(@PathVariable ObjectId myId){
-        return userService.findById(myId);
-    }
-
-    @DeleteMapping("id/{myId}")
-    public void deleteUserById(@PathVariable ObjectId myId){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        userRepository.deleteByUserName(authentication.getName());
-        userService.deleteById(myId);
     }
 
     @PutMapping
@@ -51,4 +39,18 @@ public class UserController {
         userService.saveEntry(userInDb);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @DeleteMapping
+    public ResponseEntity<?> deleteUserById(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        userRepository.deleteByUserName(authentication.getName());
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
+
+//@GetMapping("id/{myId}")
+//public Optional<User> getUserById(@PathVariable ObjectId myId){
+//    return userService.findById(myId);
+//}
+//
+
