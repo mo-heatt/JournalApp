@@ -1,7 +1,6 @@
 package com.example.journalApp.Service;
 
 import com.example.journalApp.Repository.UserRepository;
-import com.example.journalApp.entity.JournalEntry;
 import com.example.journalApp.entity.User;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +20,13 @@ public class UserService {
 
     private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public void saveEntry(User user){
+    public void saveNewUser(User user){
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(Arrays.asList("USER"));
         userRepository.save(user);
     }
 
-    public void saveNewUser(User user){
+    public void saveUser(User user){
         userRepository.save(user);
     }
 
